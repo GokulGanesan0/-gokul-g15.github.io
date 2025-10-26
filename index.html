@@ -41,7 +41,56 @@
             width: 100%;
             height: 100%;
             z-index: 0;
-            opacity: 0.4;
+            opacity: 0.5;
+        }
+
+        /* Additional animated background layers */
+        .bg-gradient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            z-index: 0;
+            animation: float-orb 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.4), transparent);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(188, 140, 255, 0.3), transparent);
+            top: 50%;
+            right: -250px;
+            animation-delay: 5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(63, 185, 80, 0.3), transparent);
+            bottom: -150px;
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        @keyframes float-orb {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(100px, -100px) scale(1.1);
+            }
+            66% {
+                transform: translate(-50px, 100px) scale(0.9);
+            }
         }
 
         .container {
@@ -122,7 +171,7 @@
 
         /* Hero Section */
         .hero {
-            min-height: 90vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -133,6 +182,7 @@
         .hero-content {
             text-align: center;
             animation: fadeInUp 0.8s ease-out;
+            will-change: transform;
         }
 
         @keyframes fadeInUp {
@@ -340,22 +390,59 @@
 
         /* Card Section */
         .section {
-            margin: 120px 0;
-            animation: fadeIn 0.8s ease-out;
+            margin: 80px 0;
             opacity: 0;
-            transform: translateY(30px);
+            will-change: transform, opacity;
         }
 
         .section.visible {
             opacity: 1;
+        }
+
+        /* Different scroll animations for each section */
+        .section.fade-up {
+            transform: translateY(40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.fade-up.visible {
             transform: translateY(0);
         }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .section.fade-left {
+            transform: translateX(-40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.fade-left.visible {
+            transform: translateX(0);
+        }
+
+        .section.fade-right {
+            transform: translateX(40px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.fade-right.visible {
+            transform: translateX(0);
+        }
+
+        .section.scale-in {
+            transform: scale(0.95);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.scale-in.visible {
+            transform: scale(1);
+        }
+
+        .section.rotate-in {
+            transform: perspective(1000px) rotateX(10deg);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .section.rotate-in.visible {
+            transform: perspective(1000px) rotateX(0deg);
         }
 
         .section-header {
@@ -714,6 +801,9 @@
 </head>
 <body>
     <canvas id="canvas-bg"></canvas>
+    <div class="bg-gradient-orb orb-1"></div>
+    <div class="bg-gradient-orb orb-2"></div>
+    <div class="bg-gradient-orb orb-3"></div>
 
     <!-- Navigation -->
     <nav id="navbar">
@@ -767,7 +857,7 @@
         </section>
 
         <!-- Skills Section -->
-        <section id="skills" class="section">
+        <section id="skills" class="section fade-up">
             <div class="section-header">
                 <div class="section-label">Technical Arsenal</div>
                 <h2 class="section-title">Skills & Technologies</h2>
@@ -776,7 +866,7 @@
                 </p>
             </div>
 
-            <div class="grid">
+            <div class="grid" id="skills-grid">
                 <div class="card">
                     <div class="card-icon">💻</div>
                     <h3>Operating Systems</h3>
@@ -788,7 +878,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-icon"☁️</div>
+                    <div class="card-icon">☁️</div>
                     <h3>Cloud Platforms</h3>
                     <div class="skill-tags">
                         <span class="skill-tag">AWS</span>
@@ -839,13 +929,13 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="section">
+        <section id="experience" class="section fade-left">
             <div class="section-header">
                 <div class="section-label">Professional Journey</div>
                 <h2 class="section-title">Experience & Education</h2>
             </div>
 
-            <div class="timeline">
+            <div class="timeline" id="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <div class="job-title">Associate Engineer - IT Infrastructure</div>
@@ -876,7 +966,7 @@
         </section>
 
         <!-- Certifications Section -->
-        <section id="certifications" class="section">
+        <section id="certifications" class="section scale-in">
             <div class="section-header">
                 <div class="section-label">Credentials</div>
                 <h2 class="section-title">Certifications & Learning</h2>
@@ -885,7 +975,7 @@
                 </p>
             </div>
 
-            <div class="grid">
+            <div class="grid" id="cert-grid">
                 <a href="https://learn.microsoft.com/api/credentials/share/en-us/GokulGanesan-9576/ACA6D62AC22152FB?sharingId=917B58C301490E2E" target="_blank" class="cert-badge">
                     <div class="cert-icon">☁️</div>
                     <div class="cert-name">Microsoft Certified:<br>Azure Fundamentals (AZ-900)</div>
@@ -924,12 +1014,12 @@
             </div>
 
             <div style="text-align: center; margin-top: 48px;">
-                <a href="#" class="btn btn-primary" download>📄 Download Full Resume</a>
+                <a href="https://drive.google.com/file/d/1CjCQ2wnv0B1VCJc4L_ANI_nViH7BI6yz/view?usp=drivesdk" target="_blank" class="btn btn-primary">📄 Download Full Resume</a>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="section">
+        <section id="contact" class="section fade-right">
             <div class="section-header">
                 <div class="section-label">Let's Connect</div>
                 <h2 class="section-title">Get In Touch</h2>
@@ -959,39 +1049,99 @@
     </footer>
 
     <script>
-        // Canvas particle animation
+        // Canvas wave/grid animation with glowing effect
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let canvasWidth = window.innerWidth;
+        let canvasHeight = window.innerHeight;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
 
+        // Wave parameters
+        const waves = [];
+        const waveCount = 3;
+        
+        class Wave {
+            constructor(amplitude, frequency, speed, color, offset) {
+                this.amplitude = amplitude;
+                this.frequency = frequency;
+                this.speed = speed;
+                this.color = color;
+                this.offset = offset;
+                this.time = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(0, canvasHeight / 2);
+
+                for (let x = 0; x < canvasWidth; x++) {
+                    const y = canvasHeight / 2 + 
+                             Math.sin((x * this.frequency + this.time) * 0.01) * this.amplitude +
+                             Math.sin((x * this.frequency * 0.5 + this.time * 1.5) * 0.01) * (this.amplitude * 0.5);
+                    ctx.lineTo(x, y + this.offset);
+                }
+
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Add glow effect
+                ctx.shadowBlur = 20;
+                ctx.shadowColor = this.color;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                this.time += this.speed;
+            }
+        }
+
+        // Create waves
+        waves.push(new Wave(30, 0.5, 0.3, 'rgba(88, 166, 255, 0.3)', -50));
+        waves.push(new Wave(40, 0.3, 0.2, 'rgba(188, 140, 255, 0.2)', 0));
+        waves.push(new Wave(25, 0.7, 0.4, 'rgba(63, 185, 80, 0.15)', 50));
+
+        // Floating particles
         const particles = [];
-        const particleCount = 100;
-        const connectionDistance = 150;
+        const particleCount = 50;
 
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
+                this.reset();
+                this.y = Math.random() * canvasHeight;
+            }
+
+            reset() {
+                this.x = Math.random() * canvasWidth;
+                this.y = -10;
+                this.speed = Math.random() * 0.5 + 0.2;
                 this.radius = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.drift = Math.random() * 0.5 - 0.25;
             }
 
             update() {
-                this.x += this.vx;
-                this.y += this.vy;
+                this.y += this.speed;
+                this.x += this.drift;
 
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                if (this.y > canvasHeight) {
+                    this.reset();
+                }
+
+                if (this.x < 0 || this.x > canvasWidth) {
+                    this.drift *= -1;
+                }
             }
 
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(88, 166, 255, 0.5)';
+                ctx.fillStyle = `rgba(88, 166, 255, ${this.opacity})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(88, 166, 255, 0.8)';
                 ctx.fill();
+                ctx.shadowBlur = 0;
             }
         }
 
@@ -999,40 +1149,62 @@
             particles.push(new Particle());
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Grid effect
+        const gridSpacing = 50;
+        let gridOffset = 0;
 
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(88, 166, 255, 0.05)';
+            ctx.lineWidth = 1;
+
+            // Vertical lines
+            for (let x = gridOffset % gridSpacing; x < canvasWidth; x += gridSpacing) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvasHeight);
+                ctx.stroke();
+            }
+
+            // Horizontal lines
+            for (let y = gridOffset % gridSpacing; y < canvasHeight; y += gridSpacing) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvasWidth, y);
+                ctx.stroke();
+            }
+
+            gridOffset += 0.2;
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // Draw animated grid
+            drawGrid();
+
+            // Draw waves
+            waves.forEach(wave => wave.draw());
+
+            // Draw and update particles
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
             });
-
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < connectionDistance) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(88, 166, 255, ${1 - distance / connectionDistance})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
 
             requestAnimationFrame(animate);
         }
 
         animate();
 
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                canvasWidth = window.innerWidth;
+                canvasHeight = window.innerHeight;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+            }, 250);
         });
 
         // Smooth scrolling
@@ -1048,24 +1220,57 @@
 
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
-        });
+            lastScroll = currentScroll;
+        }, { passive: true });
 
-        // Intersection Observer for fade-in animations
+        // Intersection Observer for fade-in animations with different effects
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    
+                    // Stagger animation for cards
+                    if (entry.target.querySelector('.grid')) {
+                        const cards = entry.target.querySelectorAll('.card, .cert-badge');
+                        cards.forEach((card, index) => {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            
+                            setTimeout(() => {
+                                card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, index * 80);
+                        });
+                    }
+                    
+                    // Stagger animation for timeline items
+                    if (entry.target.querySelector('.timeline')) {
+                        const items = entry.target.querySelectorAll('.timeline-item');
+                        items.forEach((item, index) => {
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateX(-20px)';
+                            
+                            setTimeout(() => {
+                                item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateX(0)';
+                            }, index * 150);
+                        });
+                    }
                 }
             });
         }, observerOptions);
@@ -1074,7 +1279,7 @@
             observer.observe(section);
         });
 
-        // Mouse trail effect
+        // Mouse trail effect - Optimized
         let mouseX = 0;
         let mouseY = 0;
         const dots = [];
@@ -1093,15 +1298,15 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-        });
+        }, { passive: true });
 
         function animateDots() {
             let currentX = mouseX;
             let currentY = mouseY;
 
             dots.forEach((dot, index) => {
-                dot.x += (currentX - dot.x) * 0.3;
-                dot.y += (currentY - dot.y) * 0.3;
+                dot.x += (currentX - dot.x) * 0.25;
+                dot.y += (currentY - dot.y) * 0.25;
 
                 dot.element.style.left = dot.x + 'px';
                 dot.element.style.top = dot.y + 'px';
@@ -1160,16 +1365,22 @@
         // Start typing animation after page load
         setTimeout(typeSubtitle, 1000);
 
-        // Parallax effect on scroll
+        // Parallax effect on scroll - Simplified
+        let ticking = false;
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.hero-content');
-            
-            parallaxElements.forEach(element => {
-                const speed = 0.5;
-                element.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-        });
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    const heroContent = document.querySelector('.hero-content');
+                    if (heroContent && scrolled < window.innerHeight) {
+                        heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                        heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.5;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
 
         // Card hover tilt effect
         const cards = document.querySelectorAll('.card');
@@ -1182,8 +1393,8 @@
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
                 
                 card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
             });
@@ -1211,7 +1422,7 @@
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
             scrollProgress.style.width = scrollPercent + '%';
-        });
+        }, { passive: true });
     </script>
 </body>
 </html>
